@@ -7,16 +7,16 @@ BACKEND_URL = "https://nlp-customer-support-sentence.onrender.com/search"
 def semantic_search(query, top_k):
     payload = {"query": query, "top_k": top_k}
     try:
-        response = requests.post(BACKEND_URL, json=payload, timeout=120)  # increase timeout to 120s
+        response = requests.post(BACKEND_URL, json=payload, timeout=120)
         if response.status_code == 200:
             data = response.json()
-            # Join all text answers for display
-            results = "\n\n".join(data["results"])
-            return results
+            # Assuming backend now returns text answers in `data["results_text"]`
+            return "\n\n".join(data["results_text"])
         else:
             return f"Error {response.status_code}: {response.text}"
     except requests.exceptions.RequestException as e:
         return f"Connection error: {e}"
+
 
 # Gradio Interface
 iface = gr.Interface(
